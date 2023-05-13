@@ -12,7 +12,6 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  app.use(helmet());
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   const document = SwaggerModule.createDocument(app, config);

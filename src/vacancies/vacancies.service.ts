@@ -6,6 +6,28 @@ import { User } from '@prisma/client';
 import { ApplyVacancyDto } from './dto/apply-vacancy.dto';
 @Injectable()
 export class VacanciesService {
+  getApplicationsByUser(user: User) {
+    try {
+      return this.prisma.application.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  getApplication(id: string, applicationId: string, arg2: User) {
+    try {
+      return this.prisma.application.findUnique({
+        where: {
+          id: applicationId,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   async getApplications(id: string, user: User) {
     try {
       const applications = await this.prisma.application.findMany({

@@ -30,8 +30,9 @@ model Position {
   name      String
   vacancy  Vacancy[]
   level     LEVEL
+  requirements Requirements @relation(fields: [requirementsId], references: [id])
+  requirementsId String @unique
   description String
-  requirement String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -92,7 +93,20 @@ model Vacancy {
   deletedAt DateTime?
 }
 
-
+model Requirements {
+  id       String   @id @map("_id") @default(uuid())
+  academicRank String
+  leadershipExperience Int
+  teachingExperience Int
+  KPI Int
+  communityService Boolean
+  researchExperience RESEARCH_EXPERIENCE_TYPE
+  workExperience Int
+  position Position?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
 model Office {
   id       String   @id @map("_id") @default(uuid())
   name     String  @unique

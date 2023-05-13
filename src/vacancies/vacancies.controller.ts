@@ -146,4 +146,46 @@ export class VacanciesController {
       new InternalServerErrorException(error);
     }
   }
+  @Get(':id/applications/:applicationId')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get application to vacancy by id' })
+  @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  @ApiResponse({
+    status: 200,
+    description: 'The record has been successfully queried.',
+  })
+  getApplication(
+    @Param('id') id: string,
+    @Param('applicationId') applicationId: string,
+    @Request() req,
+  ) {
+    try {
+      return this.vacanciesService.getApplication(
+        id,
+        applicationId,
+        req.user as User,
+      );
+    } catch (error) {
+      new InternalServerErrorException(error);
+    }
+  }
+  @Get('/applications/user')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get all applications by user' })
+  @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  @ApiResponse({
+    status: 200,
+    description: 'The record has been successfully queried.',
+  })
+  getApplicationsByUser(@Request() req) {
+    try {
+      return this.vacanciesService.getApplicationsByUser(req.user as User);
+    } catch (error) {
+      new InternalServerErrorException(error);
+    }
+  }
 }
